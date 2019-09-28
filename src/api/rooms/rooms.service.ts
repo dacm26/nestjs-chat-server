@@ -25,7 +25,7 @@ export class RoomService {
         };
         const query = this.findAllService.getFindAllQuery(options);
         const count = await this.RoomModel.countDocuments(query);
-        const pageSize = options.pageSize || this.utilService.environmentConfigUtils.number('DEFAULT_PAGE_SIZE', 25);
+        const pageSize = options.pageSize || this.utilService.environmentConfigUtils.number('DEFAULT_PAGE_SIZE', 50);
         const pages = Math.ceil(count / pageSize);
         if (options.page <= pages) {
             query.skip((options.page - 1) * pageSize).limit(pageSize);

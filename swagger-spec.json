@@ -11,6 +11,83 @@
     "http"
   ],
   "paths": {
+    "/posts": {
+      "get": {
+        "summary": "PostsController.findAll",
+        "description": "Returns all the documents that matched the req.query criteria.",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/FindAllPostsDto"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Invalid API key"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Posts v1.0"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "summary": "PostsController.create",
+        "description": "Creates the document in the collection (if it's valid)",
+        "parameters": [
+          {
+            "name": "CreatePostDto",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/definitions/CreatePostDto"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PostOkResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Invalid API key"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Posts v1.0"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
     "/rooms": {
       "get": {
         "summary": "RoomsController.findAll",
@@ -137,6 +214,88 @@
     }
   },
   "definitions": {
+    "FindAllPostsDto": {
+      "type": "object",
+      "properties": {
+        "currentPage": {
+          "type": "number",
+          "example": 1
+        },
+        "totalPages": {
+          "type": "number",
+          "example": 2
+        },
+        "pageSize": {
+          "type": "number",
+          "example": 25
+        },
+        "data": {
+          "type": "array",
+          "example": [
+            {
+              "_id": "5cc1d53f0cb74d0e6ce61fba",
+              "content": "testing 1234",
+              "userId": "123123123",
+              "roomId": "123123123",
+              "isDeleted": false,
+              "createdAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)",
+              "updatedAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)"
+            }
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "currentPage",
+        "totalPages",
+        "pageSize",
+        "data"
+      ]
+    },
+    "CreatePostDto": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "example": "general"
+        },
+        "userId": {
+          "type": "string",
+          "example": "1231231234"
+        },
+        "roomId": {
+          "type": "string",
+          "example": "1231231234"
+        }
+      },
+      "required": [
+        "content",
+        "userId",
+        "roomId"
+      ]
+    },
+    "PostOkResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "example": {
+            "_id": "5cc1d53f0cb74d0e6ce61fba",
+            "content": "testing 1234",
+            "userId": "123123123",
+            "roomId": "123123123",
+            "isDeleted": false,
+            "createdAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)",
+            "updatedAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)"
+          }
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
     "FindAllRoomsDto": {
       "type": "object",
       "properties": {

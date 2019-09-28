@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import {
   GatewayService,
+  PostModule,
   RoomModule,
   UserModule,
 } from './api';
@@ -12,6 +13,7 @@ import { EnvironmentConfigUtils as env, TransformInterceptor, SharedModule } fro
 @Module({
   imports: [
     MongooseModule.forRoot(env.string('MONGODB_URI'), { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }),
+    PostModule,
     RoomModule,
     SharedModule,
     UserModule,
