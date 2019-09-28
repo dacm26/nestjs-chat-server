@@ -1,10 +1,19 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { GatewayService } from './api';
-import { TransformInterceptor } from './shared';
+import { MongooseModule } from '@nestjs/mongoose';
+
+import {
+  GatewayService,
+  UserModule,
+} from './api';
+import { EnvironmentConfigUtils as env, TransformInterceptor, SharedModule } from './shared';
 
 @Module({
-  imports: [],
+  imports: [
+    MongooseModule.forRoot(env.string('MONGODB_URI'), { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }),
+    SharedModule,
+    UserModule,
+  ],
   controllers: [],
   providers: [
     GatewayService,

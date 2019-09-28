@@ -9,7 +9,7 @@ import * as cors from 'cors';
 import * as fs from 'fs';
 
 import { AppModule } from './app.module';
-import { EnvironmentConfigUtils as env, morgan as morganMiddleware } from './shared/';
+import { EnvironmentConfigUtils as env, morganMiddleware } from './shared/';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

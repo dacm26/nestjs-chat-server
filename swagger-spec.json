@@ -10,5 +10,109 @@
   "schemes": [
     "http"
   ],
-  "paths": {}
+  "paths": {
+    "/users": {
+      "post": {
+        "summary": "UsersController.create",
+        "description": "Creates the document in the collection (if it's valid)",
+        "parameters": [
+          {
+            "name": "CreateUserDto",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/definitions/CreateUserDto"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserOkResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Invalid API key"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Users v1.0"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "CreateUserDto": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "Daniel"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Coello"
+        },
+        "username": {
+          "type": "string",
+          "example": "dacm26@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "test",
+          "minLength": 6
+        },
+        "age": {
+          "type": "number",
+          "example": 16
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "username",
+        "password"
+      ]
+    },
+    "UserOkResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "example": {
+            "_id": "5cc1d53f0cb74d0e6ce61fba",
+            "firstName": "Daniel",
+            "lastName": "Coello",
+            "age": 19,
+            "username": "dacm26@gmail.com",
+            "password": "test",
+            "isDeleted": false,
+            "createdAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)",
+            "updatedAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)"
+          }
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  }
 }
