@@ -11,6 +11,83 @@
     "http"
   ],
   "paths": {
+    "/rooms": {
+      "get": {
+        "summary": "RoomsController.findAll",
+        "description": "Returns all the documents that matched the req.query criteria.",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/FindAllRoomsDto"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Invalid API key"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Rooms v1.0"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      },
+      "post": {
+        "summary": "RoomsController.create",
+        "description": "Creates the document in the collection (if it's valid)",
+        "parameters": [
+          {
+            "name": "CreateRoomDto",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/definitions/CreateRoomDto"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/RoomOkResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Invalid API key"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Rooms v1.0"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
     "/users": {
       "post": {
         "summary": "UsersController.create",
@@ -60,6 +137,81 @@
     }
   },
   "definitions": {
+    "FindAllRoomsDto": {
+      "type": "object",
+      "properties": {
+        "currentPage": {
+          "type": "number",
+          "example": 1
+        },
+        "totalPages": {
+          "type": "number",
+          "example": 2
+        },
+        "pageSize": {
+          "type": "number",
+          "example": 25
+        },
+        "data": {
+          "type": "array",
+          "example": [
+            {
+              "_id": "5cc1d53f0cb74d0e6ce61fba",
+              "name": "general",
+              "description": "test",
+              "isDeleted": false,
+              "createdAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)",
+              "updatedAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)"
+            }
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "currentPage",
+        "totalPages",
+        "pageSize",
+        "data"
+      ]
+    },
+    "CreateRoomDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "general"
+        },
+        "description": {
+          "type": "string",
+          "example": "You can post anything!"
+        }
+      },
+      "required": [
+        "name",
+        "description"
+      ]
+    },
+    "RoomOkResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "example": {
+            "_id": "5cc1d53f0cb74d0e6ce61fba",
+            "name": "general",
+            "description": "test",
+            "isDeleted": false,
+            "createdAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)",
+            "updatedAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)"
+          }
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
     "CreateUserDto": {
       "type": "object",
       "properties": {
