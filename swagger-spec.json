@@ -1,0 +1,14 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "version": "1.0",
+    "title": "nestjs-chat-server"
+  },
+  "basePath": "/",
+  "tags": [],
+  "schemes": [
+    "http"
+  ],
+  "paths": {}
+}
