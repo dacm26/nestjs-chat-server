@@ -8,6 +8,7 @@ export interface IUser extends Document {
     age: number;
     username: string;
     password: string;
+    isLoggedIn: boolean;
     isDeleted: boolean;
     createdAt: Date | string;
     updatedAt: Date | string;

@@ -1,22 +1,24 @@
 import * as jwt from 'jsonwebtoken';
-import * as crypto from 'crypto';
 import * as moment from 'moment';
-import { Body, Inject, Injectable } from '@nestjs/common';
+import { Body, Inject, Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { isNil, assign, isInteger } from 'lodash';
+
+import { IUser } from '../';
 
 import { IJwtOptions } from './interfaces';
 import { CredentialsDTO } from './dtos';
-import { EnvironmentConfigUtils as env } from '../../shared';
 
 @Injectable()
 export class AuthService {
     private _options: IJwtOptions = {
         algorithm: 'HS256',
-        expiresIn: '2 days',
-        jwtid: env.string('JWT_ID', 'jsonwebtoken'),
+        expiresIn: '1 day',
+        jwtid: this.utilService.environmentConfigUtils.string('JWT_ID', ''),
     };
 
     constructor(
+        @Inject('UtilService') private readonly utilService,
+        @Inject('UserService') private readonly userService,
     ) { }
 
     get options(): IJwtOptions {
@@ -27,11 +29,36 @@ export class AuthService {
         this._options.algorithm = value.algorithm;
     }
 
-    public async sign(@Body() credentialsDTO: CredentialsDTO): Promise<string> {
-        return null;
+    public async getUserService() {
+        return this.userService;
     }
 
-    public async logout(accountId: number): Promise<string> {
+    public async sign(@Body() credentialsDTO: CredentialsDTO): Promise<string> {
+        let user: IUser = await this.userService.findUser(credentialsDTO.username, this.utilService.hashPassword(credentialsDTO.password));
+        if (user.isLoggedIn) {
+            throw new HttpException({
+                status: HttpStatus.CONFLICT,
+                error: `User already logged in`,
+            }, HttpStatus.CONFLICT);
+        }
+        user = await this.userService.updateLoggedInStatus(user._id, true);
+        const payload = {
+            ...user,
+        };
+        delete payload.isLoggedIn;
+        const token = await jwt.sign(payload, this.utilService.environmentConfigUtils.string('JWT_KEY', ''), this._options);
+        return 'Bearer ' + token;
+    }
+
+    public async logout(id: string): Promise<string> {
+        let user: IUser = await this.userService.findById(id);
+        if (!user.isLoggedIn) {
+            throw new HttpException({
+                status: HttpStatus.CONFLICT,
+                error: `User is not logged in`,
+            }, HttpStatus.CONFLICT);
+        }
+        user = await this.userService.updateLoggedInStatus(user._id, false);
         return null;
     }
 }

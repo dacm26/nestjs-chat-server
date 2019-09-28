@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { SharedModule } from '../../shared';
@@ -7,7 +7,7 @@ import { UsersController } from './users.controller';
 import { User } from './users.schema';
 import { UserService } from './users.service';
 
-const UserModel = MongooseModule.forFeature([{
+export const UserModel = MongooseModule.forFeature([{
   name: 'User',
   schema: User,
 }]);
@@ -15,7 +15,7 @@ const UserModel = MongooseModule.forFeature([{
 @Module({
   imports: [
     UserModel,
-    SharedModule,
+    forwardRef(() => SharedModule),
   ],
   controllers: [UsersController],
   providers: [

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import * as crypto from 'crypto';
 import {
     reduce,
 } from 'lodash';
@@ -19,5 +20,9 @@ export class UtilService {
             steps.push(Types.ObjectId(id));
             return steps;
         }, []);
+    }
+
+    public hashPassword(password: string) {
+        return crypto.createHmac('sha256', password).digest('hex');
     }
 }

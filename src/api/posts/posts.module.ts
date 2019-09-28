@@ -1,11 +1,14 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { SharedModule } from '../../shared';
 
+import { AuthMiddleware, UserModule } from '../';
+
 import { PostsController } from './posts.controller';
 import { Post } from './posts.schema';
 import { PostService } from './posts.service';
+import { RoomsController } from '../rooms/rooms.controller';
 
 const PostModel = MongooseModule.forFeature([{
   name: 'Post',
@@ -14,6 +17,7 @@ const PostModel = MongooseModule.forFeature([{
 
 @Module({
   imports: [
+    forwardRef(() => UserModule),
     PostModel,
     SharedModule,
   ],
@@ -26,4 +30,10 @@ const PostModel = MongooseModule.forFeature([{
     PostService,
   ],
 })
-export class PostModule { }
+export class PostModule implements NestModule {
+  public configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(RoomsController);
+  }
+}

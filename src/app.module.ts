@@ -3,6 +3,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import {
+  AuthModule,
   GatewayService,
   PostModule,
   RoomModule,
@@ -13,10 +14,11 @@ import { EnvironmentConfigUtils as env, TransformInterceptor, SharedModule } fro
 @Module({
   imports: [
     MongooseModule.forRoot(env.string('MONGODB_URI'), { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }),
+    AuthModule,
+    UserModule,
     PostModule,
     RoomModule,
     SharedModule,
-    UserModule,
   ],
   controllers: [],
   providers: [

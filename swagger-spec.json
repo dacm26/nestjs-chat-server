@@ -11,6 +11,129 @@
     "http"
   ],
   "paths": {
+    "/login": {
+      "post": {
+        "summary": "AuthController.login",
+        "description": "Login the user and returns a token",
+        "parameters": [
+          {
+            "name": "CredentialsDTO",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/definitions/CredentialsDTO"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/LoginOkResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Invalid API key"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Auth v1.0"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/logout": {
+      "post": {
+        "summary": "AuthController.logout",
+        "description": "Logouts the user and invalidate the token",
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Invalid API key"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Auth v1.0"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "summary": "UsersController.create",
+        "description": "Creates the document in the collection (if it's valid)",
+        "parameters": [
+          {
+            "name": "CreateUserDto",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/definitions/CreateUserDto"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserOkResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Invalid API key"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Users v1.0"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
     "/posts": {
       "get": {
         "summary": "PostsController.findAll",
@@ -164,56 +287,94 @@
           "application/json"
         ]
       }
-    },
-    "/users": {
-      "post": {
-        "summary": "UsersController.create",
-        "description": "Creates the document in the collection (if it's valid)",
-        "parameters": [
-          {
-            "name": "CreateUserDto",
-            "required": true,
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "data": {
-                  "$ref": "#/definitions/CreateUserDto"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/UserOkResponse"
-            }
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "403": {
-            "description": "Invalid API key"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "tags": [
-          "Users v1.0"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ]
-      }
     }
   },
   "definitions": {
+    "CredentialsDTO": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "username"
+        },
+        "password": {
+          "type": "string",
+          "example": "test123."
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ]
+    },
+    "LoginOkResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "example": {
+            "token": "Bearer test"
+          }
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "CreateUserDto": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "Daniel"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Coello"
+        },
+        "username": {
+          "type": "string",
+          "example": "dacm26@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "test",
+          "minLength": 6
+        },
+        "age": {
+          "type": "number",
+          "example": 16
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "username",
+        "password"
+      ]
+    },
+    "UserOkResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "example": {
+            "_id": "5cc1d53f0cb74d0e6ce61fba",
+            "firstName": "Daniel",
+            "lastName": "Coello",
+            "age": 19,
+            "username": "dacm26@gmail.com",
+            "password": "test",
+            "isDeleted": false,
+            "createdAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)",
+            "updatedAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)"
+          }
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
     "FindAllPostsDto": {
       "type": "object",
       "properties": {
@@ -361,60 +522,6 @@
             "_id": "5cc1d53f0cb74d0e6ce61fba",
             "name": "general",
             "description": "test",
-            "isDeleted": false,
-            "createdAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)",
-            "updatedAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)"
-          }
-        }
-      },
-      "required": [
-        "data"
-      ]
-    },
-    "CreateUserDto": {
-      "type": "object",
-      "properties": {
-        "firstName": {
-          "type": "string",
-          "example": "Daniel"
-        },
-        "lastName": {
-          "type": "string",
-          "example": "Coello"
-        },
-        "username": {
-          "type": "string",
-          "example": "dacm26@gmail.com"
-        },
-        "password": {
-          "type": "string",
-          "example": "test",
-          "minLength": 6
-        },
-        "age": {
-          "type": "number",
-          "example": 16
-        }
-      },
-      "required": [
-        "firstName",
-        "lastName",
-        "username",
-        "password"
-      ]
-    },
-    "UserOkResponse": {
-      "type": "object",
-      "properties": {
-        "data": {
-          "type": "object",
-          "example": {
-            "_id": "5cc1d53f0cb74d0e6ce61fba",
-            "firstName": "Daniel",
-            "lastName": "Coello",
-            "age": 19,
-            "username": "dacm26@gmail.com",
-            "password": "test",
             "isDeleted": false,
             "createdAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)",
             "updatedAt": "Thu Apr 25 2019 09:41:51 GMT-0600 (Central Standard Time)"

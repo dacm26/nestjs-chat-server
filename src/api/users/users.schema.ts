@@ -9,6 +9,7 @@ const UserSchema = new Schema({
     age: { type: Number },
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true, minlength: 6 },
+    isLoggedIn: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
 }, { timestamps: true, collection: 'users', toJSON: { virtuals: true } });
 

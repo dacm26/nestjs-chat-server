@@ -4,8 +4,8 @@ import { IsString, IsOptional } from 'class-validator';
 export class CredentialsDTO {
   @IsOptional()
   @IsString()
-  @ApiModelProperty({ example: 'test@gmail.com' })
-  public readonly email: string;
+  @ApiModelProperty({ example: 'username' })
+  public readonly username: string;
 
   @IsString()
   @ApiModelProperty({ example: 'test123.' })

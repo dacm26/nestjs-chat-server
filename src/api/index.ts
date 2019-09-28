@@ -1,5 +1,7 @@
 export * from './auth/dtos';
 export * from './auth/interfaces';
+export * from './auth/auth.middleware';
+export * from './auth/auth.module';
 export * from './auth/auth.service';
 export * from './gateway/gateway.service';
 export * from './rooms/dtos';
@@ -11,3 +13,4 @@ export * from './posts/posts.module';
 export * from './users/dtos';
 export * from './users/interfaces';
 export * from './users/users.module';
+export * from './users/users.service';
