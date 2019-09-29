@@ -35,6 +35,12 @@ export class AuthService {
 
     public async sign(@Body() credentialsDTO: CredentialsDTO): Promise<string> {
         let user: IUser = await this.userService.findUser(credentialsDTO.username, this.utilService.hashPassword(credentialsDTO.password));
+        if (isNil(user)) {
+            throw new HttpException({
+                status: HttpStatus.BAD_REQUEST,
+                error: `Wrong password or username`,
+            }, HttpStatus.BAD_REQUEST);
+        }
         if (user.isLoggedIn) {
             throw new HttpException({
                 status: HttpStatus.CONFLICT,

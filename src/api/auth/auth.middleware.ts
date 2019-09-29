@@ -2,6 +2,8 @@ import { Inject, Injectable, HttpException, HttpStatus, NestMiddleware } from '@
 import { Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 
+import { IUser } from '../';
+
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
     constructor(
@@ -12,16 +14,15 @@ export class AuthMiddleware implements NestMiddleware {
     public async use(req: any, res: Response, next: NextFunction) {
         if (req.headers.cookie && (req.headers.cookie as string).split(' ')[0] === 'Bearer') {
             const token = (req.headers.cookie as string).split(' ')[1];
-            // const decoded: any = jwt.verify(token, this.utilService.environmentConfigUtils.string('JWT_KEY', ''));
-            // req.user = decoded;
-            
-            // let user: IUser = await this.userService.findById(id);
-            // if (!user.isLoggedIn) {
-            //     throw new HttpException({
-            //         status: HttpStatus.CONFLICT,
-            //         error: `User is not logged in`,
-            //     }, HttpStatus.CONFLICT);
-            // }
+            const decoded: any = jwt.verify(token, this.utilService.environmentConfigUtils.string('JWT_KEY', ''));
+            req.user = decoded;
+            let user: IUser = await this.userService.findById(req.user._id);
+            if (!user.isLoggedIn) {
+                throw new HttpException({
+                    status: HttpStatus.UNAUTHORIZED,
+                    error: `User is not logged in`,
+                }, HttpStatus.UNAUTHORIZED);
+            }
             next();
         } else {
             throw new HttpException({
