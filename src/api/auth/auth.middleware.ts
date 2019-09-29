@@ -12,17 +12,17 @@ export class AuthMiddleware implements NestMiddleware {
     ) { }
 
     public async use(req: any, res: Response, next: NextFunction) {
-        if (req.headers.cookie && (req.headers.cookie as string).split(' ')[0] === 'Bearer') {
-            const token = (req.headers.cookie as string).split(' ')[1];
+        if (req.headers.authorization && (req.headers.authorization as string).split(' ')[0] === 'Bearer') {
+            const token = (req.headers.authorization as string).split(' ')[1];
             const decoded: any = jwt.verify(token, this.utilService.environmentConfigUtils.string('JWT_KEY', ''));
             req.user = decoded;
-            let user: IUser = await this.userService.findById(req.user._id);
-            if (!user.isLoggedIn) {
-                throw new HttpException({
-                    status: HttpStatus.UNAUTHORIZED,
-                    error: `User is not logged in`,
-                }, HttpStatus.UNAUTHORIZED);
-            }
+            // let user: IUser = await this.userService.findById(req.user._id);
+            // if (!user.isLoggedIn) {
+            //     throw new HttpException({
+            //         status: HttpStatus.UNAUTHORIZED,
+            //         error: `User is not logged in`,
+            //     }, HttpStatus.UNAUTHORIZED);
+            // }
             next();
         } else {
             throw new HttpException({

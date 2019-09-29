@@ -8,7 +8,6 @@ import { AuthMiddleware, UserModule } from '../';
 import { PostsController } from './posts.controller';
 import { Post } from './posts.schema';
 import { PostService } from './posts.service';
-import { RoomsController } from '../rooms/rooms.controller';
 
 const PostModel = MongooseModule.forFeature([{
   name: 'Post',
@@ -34,6 +33,6 @@ export class PostModule implements NestModule {
   public configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .forRoutes(RoomsController);
+      .forRoutes(PostsController);
   }
 }

@@ -17,7 +17,10 @@ export class UserService {
     public async findById(id: string) {
         let user: IUser = null;
         if (Types.ObjectId.isValid(id)) {
-            user = await this.UserModel.findById(this.utilService.convertMongoIdToObjectId([id])[0]).lean().exec();
+            user = await this.UserModel.findById(this.utilService.convertMongoIdToObjectId([id])[0]).select('-password -createdAt -updatedAt').lean().exec();
+            if (user.isDeleted) {
+                user = null;
+            }
         }
         return user;
     }

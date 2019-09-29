@@ -1,5 +1,5 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, MinLength } from 'class-validator';
 
 export class CredentialsDTO {
   @IsOptional()
@@ -8,6 +8,7 @@ export class CredentialsDTO {
   public readonly username: string;
 
   @IsString()
-  @ApiModelProperty({ example: 'test123.' })
+  @MinLength(6)
+  @ApiModelProperty({ example: 'test123.', minLength: 6 })
   public readonly password: string;
 }

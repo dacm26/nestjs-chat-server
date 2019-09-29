@@ -41,12 +41,12 @@ export class AuthService {
                 error: `Wrong password or username`,
             }, HttpStatus.BAD_REQUEST);
         }
-        if (user.isLoggedIn) {
-            throw new HttpException({
-                status: HttpStatus.CONFLICT,
-                error: `User already logged in`,
-            }, HttpStatus.CONFLICT);
-        }
+        // if (user.isLoggedIn) {
+        //     throw new HttpException({
+        //         status: HttpStatus.CONFLICT,
+        //         error: `User already logged in`,
+        //     }, HttpStatus.CONFLICT);
+        // }
         user = await this.userService.updateLoggedInStatus(user._id, true);
         const payload = {
             ...user,

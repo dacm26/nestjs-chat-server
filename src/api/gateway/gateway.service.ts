@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -11,6 +11,9 @@ import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway()
 export class GatewayService implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  constructor(@Inject('UserService') private readonly userService,) {
+  }
+
   @WebSocketServer() private server: Server;
   private logger: Logger = new Logger('GatewayService');
 

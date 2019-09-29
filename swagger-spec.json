@@ -299,7 +299,8 @@
         },
         "password": {
           "type": "string",
-          "example": "test123."
+          "example": "test123.",
+          "minLength": 6
         }
       },
       "required": [
