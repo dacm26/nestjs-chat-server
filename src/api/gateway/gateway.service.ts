@@ -11,15 +11,26 @@ import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway()
 export class GatewayService implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  constructor(@Inject('UserService') private readonly userService,) {
+  constructor(@Inject('PostService') private readonly postService,) {
   }
 
   @WebSocketServer() private server: Server;
   private logger: Logger = new Logger('GatewayService');
 
   @SubscribeMessage('msgToServer')
-  public handleMessage(client: Socket, payload: string): void {
-    this.server.emit('msgToClient', payload);
+  public async handleMessage(client: Socket, payload: string) {
+    let post = null;
+    try {
+      post = JSON.parse(payload);
+      const createdPost = await this.postService.create(post, true);
+      this.server.emit('msgToClient', JSON.stringify(createdPost));
+    } catch(e) {
+      const retVal = {
+        error: true,
+        message: 'Something went wrong',
+      };
+      this.server.emit('msgToClient', JSON.stringify(retVal));
+    }
   }
 
   public afterInit(server: Server) {

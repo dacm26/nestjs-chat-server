@@ -33,8 +33,6 @@ export class PostService {
                 retVal.data = await this.PostModel.find(query).populate([{
                     path: 'user',
                     select: '-password',
-                }, {
-                    path: 'room',
                 }]).lean().exec();
             } else {
                 retVal.data = await this.PostModel.find(query).lean().exec();
@@ -46,12 +44,19 @@ export class PostService {
         return retVal;
     }
 
-    public async create(data: CreatePostDto) {
+    public async create(data: CreatePostDto, addPopulate = false) {
         data.userId = this.utilService.convertMongoIdToObjectId([data.userId])[0];
         data.roomId = this.utilService.convertMongoIdToObjectId([data.roomId])[0];
         const post = new this.PostModel({
             ...data,
         });
-        return post.save();
+        let createdPost =  (await post.save()).toJSON();
+        if (addPopulate) {
+            createdPost = this.PostModel.findById(createdPost._id).populate([{
+                path: 'user',
+                select: '-password',
+            }]).lean().exec();
+        }
+        return createdPost;
     }
 }

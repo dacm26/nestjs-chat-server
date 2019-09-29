@@ -12,7 +12,6 @@ export class CreateRoomDto {
     public name: string;
 
     @IsOptional()
-    @IsNotEmpty()
     @IsString()
     @ApiModelProperty({ example: 'You can post anything!' })
     public description: string;
