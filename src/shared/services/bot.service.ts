@@ -16,7 +16,7 @@ export interface IStock {
 }
 export class BotService {
     public static mayBeACmd(post: IPost) {
-        const regex = /(stock=)/g;
+        const regex = /(\/stock=)/g;
         return regex.test(post.content);
     }
 
