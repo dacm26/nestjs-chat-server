@@ -8,10 +8,11 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { BotService } from '../../shared';
 
 @WebSocketGateway()
 export class GatewayService implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  constructor(@Inject('PostService') private readonly postService,) {
+  constructor(@Inject('PostService') private readonly postService, ) {
   }
 
   @WebSocketServer() private server: Server;
@@ -22,9 +23,14 @@ export class GatewayService implements OnGatewayInit, OnGatewayConnection, OnGat
     let post = null;
     try {
       post = JSON.parse(payload);
-      const createdPost = await this.postService.create(post, true);
+      let createdPost = null;
+      if (BotService.mayBeACmd(post)) {
+        createdPost = await BotService.parseCmd(post);
+      } else {
+        createdPost = await this.postService.create(post, true);
+      }
       this.server.emit('msgToClient', JSON.stringify(createdPost));
-    } catch(e) {
+    } catch (e) {
       const retVal = {
         error: true,
         message: 'Something went wrong',
