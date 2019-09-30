@@ -1,0 +1,267 @@
+{
+	"info": {
+		"_postman_id": "90a53237-dafa-492f-935e-37321dc03f3c",
+		"name": "nestjs-chat-server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"data\": {\n\t\t\"firstName\": \"Daniel\",\n\t\t\"lastName\": \"Coello\",\n\t\t\"username\": \"test\",\n\t\t\"password\": \"test1234.\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{chat-server-url}}/users",
+							"host": [
+								"{{chat-server-url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "rooms",
+			"item": [
+				{
+					"name": "Create Room",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"data\": {\n\t\t\"name\": \"General\",\n\t\t\"description\": \"You can post about anything!\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{chat-server-url}}/rooms",
+							"host": [
+								"{{chat-server-url}}"
+							],
+							"path": [
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Rooms",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0RlbGV0ZWQiOmZhbHNlLCJfaWQiOiI1ZDhmY2I0ZjBlMDZmNmQ1YTA1MWQyYWIiLCJmaXJzdE5hbWUiOiJEYW5pZWwiLCJsYXN0TmFtZSI6IkNvZWxsbyIsInVzZXJuYW1lIjoidGVzdCIsInBhc3N3b3JkIjoiNTZjZDI0YjMyYmMyOTBhNzQyYzU1YmVhYjNlMjk4Y2VhNzgxM2E3MTJiZjY1MjQ0ZjJlZTVlNmIwZmFkZjFmNiIsImNyZWF0ZWRBdCI6IjIwMTktMDktMjhUMjE6MDY6MjMuNDk1WiIsInVwZGF0ZWRBdCI6IjIwMTktMDktMjlUMDQ6MjM6NDcuMzE5WiIsIl9fdiI6MCwiaWQiOiI1ZDhmY2I0ZjBlMDZmNmQ1YTA1MWQyYWIiLCJpYXQiOjE1Njk3MzEwNTksImV4cCI6MTU2OTgxNzQ1OSwianRpIjoianNvbndlYnRva2VuIn0.pu6kPT3fsvZYYeQO2psqzOm1vqd53AEIqpgeR9SNpyA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{chat-server-url}}/rooms?where={\"isDeleted\": false}&sort=[\"-name\"]",
+							"host": [
+								"{{chat-server-url}}"
+							],
+							"path": [
+								"rooms"
+							],
+							"query": [
+								{
+									"key": "where",
+									"value": "{\"isDeleted\": false}"
+								},
+								{
+									"key": "sort",
+									"value": "[\"-name\"]"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "posts",
+			"item": [
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"data\": {\n\t\t\"userId\": \"5d8fcb4f0e06f6d5a051d2ab\",\n\t\t\"roomId\": \"5d8fcdd3934b68da1d400360\",\n\t\t\"content\": \"Hello?\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{chat-server-url}}/posts",
+							"host": [
+								"{{chat-server-url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Posts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0RlbGV0ZWQiOmZhbHNlLCJfaWQiOiI1ZDhmY2I0ZjBlMDZmNmQ1YTA1MWQyYWIiLCJmaXJzdE5hbWUiOiJEYW5pZWwiLCJsYXN0TmFtZSI6IkNvZWxsbyIsInVzZXJuYW1lIjoidGVzdCIsInBhc3N3b3JkIjoiNTZjZDI0YjMyYmMyOTBhNzQyYzU1YmVhYjNlMjk4Y2VhNzgxM2E3MTJiZjY1MjQ0ZjJlZTVlNmIwZmFkZjFmNiIsImNyZWF0ZWRBdCI6IjIwMTktMDktMjhUMjE6MDY6MjMuNDk1WiIsInVwZGF0ZWRBdCI6IjIwMTktMDktMjlUMDI6MTA6MDguMjY4WiIsIl9fdiI6MCwiaWQiOiI1ZDhmY2I0ZjBlMDZmNmQ1YTA1MWQyYWIiLCJpYXQiOjE1Njk3MjMwMDgsImV4cCI6MTU2OTgwOTQwOCwianRpIjoianNvbndlYnRva2VuIn0.SnmAcYxX3U2L3ZmiUd4Fx1i_6uJHw6s9Mfg0x3ltLi4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{chat-server-url}}/posts?where={\"isDeleted\": false}&populate=true",
+							"host": [
+								"{{chat-server-url}}"
+							],
+							"path": [
+								"posts"
+							],
+							"query": [
+								{
+									"key": "where",
+									"value": "{\"isDeleted\": false}"
+								},
+								{
+									"key": "populate",
+									"value": "true"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e4f36232-9138-4cc1-a576-68393ae55e16",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "997547e8-e53e-4bd0-adaa-c40af9ab67df",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"data\": {\n\t\t\"username\": \"test\",\n\t\t\"password\": \"test1234.\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{chat-server-url}}/login",
+							"host": [
+								"{{chat-server-url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0RlbGV0ZWQiOmZhbHNlLCJfaWQiOiI1ZDhmY2I0ZjBlMDZmNmQ1YTA1MWQyYWIiLCJmaXJzdE5hbWUiOiJEYW5pZWwiLCJsYXN0TmFtZSI6IkNvZWxsbyIsInVzZXJuYW1lIjoidGVzdCIsInBhc3N3b3JkIjoiNTZjZDI0YjMyYmMyOTBhNzQyYzU1YmVhYjNlMjk4Y2VhNzgxM2E3MTJiZjY1MjQ0ZjJlZTVlNmIwZmFkZjFmNiIsImNyZWF0ZWRBdCI6IjIwMTktMDktMjhUMjE6MDY6MjMuNDk1WiIsInVwZGF0ZWRBdCI6IjIwMTktMDktMjhUMjI6NDQ6NDQuNDkxWiIsIl9fdiI6MCwiaWQiOiI1ZDhmY2I0ZjBlMDZmNmQ1YTA1MWQyYWIiLCJpYXQiOjE1Njk3MTA2ODQsImV4cCI6MTU2OTc5NzA4NCwianRpIjoianNvbndlYnRva2VuIn0.OjMrbV6vlrF1bG8mej7WhDqHI3y-K1MUHknqIdDKAEE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{chat-server-url}}/logout",
+							"host": [
+								"{{chat-server-url}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
