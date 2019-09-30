@@ -26,7 +26,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository. The server runs in `http://localhost:3000`. You can import the postman collections from the `postman` folder and check the swagger docs at ``http://localhost:3000/api/docs``
 
 ## Installation
 
